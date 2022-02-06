@@ -1,18 +1,40 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Htmx_Todo.TodoService;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Htmx_Todo.Web.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    private readonly ILogger<IndexModel> logger;
+    private readonly TodoService.TodoService todoService;
 
-    public IndexModel(ILogger<IndexModel> logger)
+    public IEnumerable<TodoItem> OpenItems => todoService.Items.Where(t => t.Status == TodoStatus.Open);
+    public IEnumerable<TodoItem> DoneItems => todoService.Items.Where(t => t.Status == TodoStatus.Done);
+
+    public IndexModel(ILogger<IndexModel> logger, TodoService.TodoService todoService)
     {
-        _logger = logger;
+        this.logger = logger;
+        this.todoService = todoService;
     }
 
     public void OnGet()
     {
+    }
+    
+    public void OnPostAdd(string newTodo)
+    {
+        todoService.Add(new(newTodo));
+    }      
+    public void OnPostMarkAsDone(TodoItem todoItem)
+    {
+        todoService.MarkAsDone(todoItem);
+    }    
+    public void OnPostRestore(TodoItem todoItem)
+    {
+        todoService.Restore(todoItem);
+    }    
+    public void OnPostDelete(TodoItem todoItem)
+    {
+        todoService.Delete(todoItem);
     }
 }

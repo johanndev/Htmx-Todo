@@ -1,10 +1,48 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "My Todos";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container">
+    <div class="row">
+        <form method="post" asp-page-handler="Add" class="col">
+            <div class="form-group">
+                <label for="newTodo">What should get done?</label>
+                <input type="text" class="form-control" name="newTodo" id="newTodo" placeholder="Mow the lawn, ...">
+            </div>
+            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add</button>
+        </form>
+        <div class="col">
+            <h3>Open</h3>
+            <ul class="px-0">
+                @foreach (var todo in Model.OpenItems)
+                {
+                    <li class="d-flex flex-row align-items-baseline">
+                        <form method="post" asp-page-handler="MarkAsDone">
+                            <input type="hidden" name="Id" value="@todo.Id"/>
+                            <input type="text" disabled="disabled" value="@todo.Name"/>
+                            <button class="btn btn-primary m-lg-1">Mark as done</button>
+                        </form>
+                        <form method="post" asp-page-handler="Delete">
+                            <input type="hidden" name="Id" value="@todo.Id"/>
+                            <button class="btn btn-primary m-lg-1">Delete</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+            <h3>Done</h3>
+            <ul class="px-0">
+                @foreach (var todo in Model.DoneItems)
+                {
+                    <li class="d-flex flex-row align-items-baseline">
+                        <form method="post" asp-page-handler="Restore">
+                            <input type="hidden" name="Id" value="@todo.Id"/>
+                            <input class="text-decoration-line-through" type="text" disabled="disabled" value="@todo.Name"/>
+                            <button class="btn btn-primary m-lg-1">Restore</button>
+                        </form>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>

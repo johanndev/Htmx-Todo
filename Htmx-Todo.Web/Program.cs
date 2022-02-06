@@ -1,7 +1,10 @@
+using Htmx_Todo.TodoService;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddSingleton<TodoService>();
 
 var app = builder.Build();
 
@@ -21,5 +24,15 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+var todoService = app.Services.GetRequiredService<TodoService>();
+todoService.AddRange(new []
+{
+    new TodoItem("1"),
+    new TodoItem("2"),
+    new TodoItem("3"),
+    new TodoItem("4"),
+    new TodoItem("5"),
+});
 
 app.Run();
