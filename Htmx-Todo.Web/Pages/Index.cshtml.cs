@@ -8,8 +8,8 @@ public class IndexModel : PageModel
     private readonly ILogger<IndexModel> logger;
     private readonly TodoService.TodoService todoService;
 
-    public IEnumerable<TodoItem> OpenItems => todoService.Items.Where(t => t.Status == TodoStatus.Open);
-    public IEnumerable<TodoItem> DoneItems => todoService.Items.Where(t => t.Status == TodoStatus.Done);
+    public IEnumerable<TodoItem> OpenItems => todoService.OpenItems;
+    public IEnumerable<TodoItem> DoneItems => todoService.DoneItems;
 
     public IndexModel(ILogger<IndexModel> logger, TodoService.TodoService todoService)
     {

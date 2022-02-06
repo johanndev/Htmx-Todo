@@ -13,36 +13,56 @@
             <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add</button>
         </form>
         <div class="col">
-            <h3>Open</h3>
-            <ul class="px-0">
-                @foreach (var todo in Model.OpenItems)
-                {
-                    <li class="d-flex flex-row align-items-baseline justify-content-between">
-                        <form method="post" asp-page-handler="MarkAsDone">
-                            <input type="hidden" name="Id" value="@todo.Id"/>
-                            <input type="text" disabled="disabled" value="@todo.Name"/>
-                            <button class="btn btn-primary"><i class="bi bi-check"></i></button>
-                        </form>
-                        <form method="post" asp-page-handler="Delete">
-                            <input type="hidden" name="Id" value="@todo.Id"/>
-                            <button class="btn btn-primary"><i class="bi bi-trash"></i></button>
-                        </form>
-                    </li>
-                }
-            </ul>
-            <h3>Done</h3>
-            <ul class="px-0">
-                @foreach (var todo in Model.DoneItems)
-                {
-                    <li class="d-flex flex-row align-items-baseline">
-                        <form method="post" asp-page-handler="Restore">
-                            <input type="hidden" name="Id" value="@todo.Id"/>
-                            <input class="text-decoration-line-through" type="text" disabled="disabled" value="@todo.Name"/>
-                            <button class="btn btn-primary m-lg-1"><i class="bi bi-recycle"></i></button>
-                        </form>
-                    </li>
-                }
-            </ul>
+            @if (Model.OpenItems.Any())
+            {
+                <h3>Open</h3>
+                <ul class="px-0">
+                    @foreach (var todo in Model.OpenItems)
+                    {
+                        <li class="d-flex flex-row align-items-baseline justify-content-between">
+                            <form method="post" asp-page-handler="MarkAsDone">
+                                <input type="hidden" name="Id" value="@todo.Id"/>
+                                <input type="text" disabled="disabled" value="@todo.Name"/>
+                                <button class="btn btn-primary">
+                                    <i class="bi bi-check"></i>
+                                </button>
+                            </form>
+                            <form method="post" asp-page-handler="Delete">
+                                <input type="hidden" name="Id" value="@todo.Id"/>
+                                <button class="btn btn-primary">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <h3>Nothing to do, well done!</h3>
+            }
+            @if (Model.DoneItems.Any())
+            {
+                <h3>Done</h3>
+                <ul class="px-0">
+                    @foreach (var todo in Model.DoneItems)
+                    {
+                        <li class="d-flex flex-row align-items-baseline">
+                            <form method="post" asp-page-handler="Restore">
+                                <input type="hidden" name="Id" value="@todo.Id"/>
+                                <input class="text-decoration-line-through" type="text" disabled="disabled" value="@todo.Name"/>
+                                <button class="btn btn-primary m-lg-1">
+                                    <i class="bi bi-recycle"></i>
+                                </button>
+                            </form>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <h3>No items marked as done, get on it!</h3>
+            }
         </div>
     </div>
 </div>

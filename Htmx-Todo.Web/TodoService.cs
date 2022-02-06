@@ -36,6 +36,8 @@ public class TodoService
     }
 
     public IReadOnlyList<TodoItem> Items => todoItems.AsReadOnly();
+    public IEnumerable<TodoItem> OpenItems => todoItems.Where(t => t.Status == TodoStatus.Open);
+    public IEnumerable<TodoItem> DoneItems => todoItems.Where(t => t.Status == TodoStatus.Done);
 
     public void AddRange(IEnumerable<TodoItem> range)
     {
