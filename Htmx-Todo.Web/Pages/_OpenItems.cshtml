@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Htmx_Todo.TodoService.TodoItem>
+
+@if (Model.Any())
+{
+    <h3>Open</h3>
+    <ul class="px-0">
+        @foreach (var todo in Model)
+        {
+            <li class="d-flex flex-row align-items-baseline justify-content-between">
+                <form method="post" asp-page-handler="MarkAsDone">
+                    <input type="hidden" name="Id" value="@todo.Id"/>
+                    <input type="text" disabled="disabled" value="@todo.Name"/>
+                    <button class="btn btn-primary">
+                        <i class="bi bi-check"></i>
+                    </button>
+                </form>
+                <form method="post" asp-page-handler="Delete">
+                    <input type="hidden" name="Id" value="@todo.Id"/>
+                    <button class="btn btn-primary">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <h3>Nothing to do, well done!</h3>
+}
