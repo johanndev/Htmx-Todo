@@ -47,19 +47,19 @@ public class TodoService
 
     public void MarkAsDone(TodoItem todoItem)
     {
-        var existingItem = Items.Single(t => t.Id == todoItem.Id);
+        var existingItem = todoItems.Single(t => t.Id == todoItem.Id);
         existingItem.MarkAsDone();
     }
 
     public void Restore(TodoItem todoItem)
     {
-        var existingItem = Items.Single(t => t.Id == todoItem.Id);
+        var existingItem = todoItems.Single(t => t.Id == todoItem.Id);
         existingItem.Restore();
     }
 
     public void Delete(TodoItem todoItem)
     {
-        var existingItem = Items.Single(t => t.Id == todoItem.Id);
+        var existingItem = todoItems.Single(t => t.Id == todoItem.Id);
         todoItems.Remove(existingItem);
     }
 }
